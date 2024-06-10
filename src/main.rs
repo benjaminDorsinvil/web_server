@@ -1,3 +1,4 @@
+// import libraries
 use std::{
     sync::{Arc, Mutex},
     collections::HashMap
@@ -17,15 +18,17 @@ use serde::{
 };
 
 
-
+// User struct 
 #[derive(Serialize, Deserialize)]
 struct User{
     name: String, 
     age: u32,
 }
 
+//  Create a local hashmap as a temporary local database
 type UserDb = Arc<Mutex<HashMap<u32, User>>>;
 
+// creating the get request by matching user id to hashmap database 
 #[actix_web::get("/users/{id}")]
 async fn get_user(
     user_id: web::Path<u32>, 
@@ -39,6 +42,7 @@ async fn get_user(
         
 }
 
+// Creating user response struct
 #[derive(Serialize)]
 struct CreateUserResponse {
     id: u32, 
@@ -46,6 +50,7 @@ struct CreateUserResponse {
     age: u32
 }
 
+// endpoint to create new user
 #[actix_web::post("/users")]
 async fn create_user(
     user_data: web::Json<User>, 
@@ -63,6 +68,7 @@ async fn create_user(
     })
 }
 
+// main function creates address and port and runs the app
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let port = 8080;
