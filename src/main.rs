@@ -1,9 +1,22 @@
 use std::{
     sync::{Arc, Mutex},
-    collections::HashMap,
+    collections::HashMap
 };
-use actix_web::{web, App, HttpServer, Responder, HttpResponse, Error, error::ErrorNotFound};
-use serde::{Deserialize, Serialize};
+use actix_web::{
+    web, 
+    App, 
+    HttpServer, 
+    Responder, 
+    HttpResponse, 
+    Error, 
+    error::ErrorNotFound
+};
+use serde::{
+    Deserialize, 
+    Serialize
+};
+
+
 
 #[derive(Serialize, Deserialize)]
 struct User{
@@ -12,7 +25,6 @@ struct User{
 
 type UserDb = Arc<Mutex<HashMap<u32, User>>>;
 
-//define out endpoint.
 #[actix_web::get("/users/{id}")]
 async fn get_user(
     user_id: web::Path<u32>, 
